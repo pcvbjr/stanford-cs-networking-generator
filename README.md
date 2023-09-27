@@ -15,12 +15,17 @@ Access the tool at https://stanford-cs-networking-generator.streamlit.app/
 - Enter an OpenAI API key in the left side panel
 - Upload your resume (PDF)
 - Give instructions for the generative output. Write instructions as if prompting a single output - this will be used several times to create multiple outputs to different recipients. Detailed instructions will yield best results.
-![preview of webpage](images/page_header.png "Webpage Preview")
 
 ### Usage Examples
 #### **Example 1**
 ##### **Input**
 ![preview of webpage](images/example_1_input.png "Example 1 input")
 ##### **Output Sample**
-![preview of webpage](images/example_1_output.png "Example 1 input")
+![preview of webpage](images/example_1_output.png "Example 1 output")
+
+#### **Example 2**
+##### **Input**
+![preview of webpage](images/example_2_input.png "Example 2 input")
+##### **Output Sample**
+![preview of webpage](images/example_2_output.png "Example 2 output")
 
