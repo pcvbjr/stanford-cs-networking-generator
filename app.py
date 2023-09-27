@@ -7,8 +7,7 @@ from email_writer import generate_resume_notes, get_resume_embeddings, get_email
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
-    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/pages/1_File_Q%26A.py)"
-    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+    "[View the source code](https://github.com/pcvbjr/stanford-cs-networking-generator/blob/main/app.py)"
 
 st.title("Stanford CS Networking Generator")
 uploaded_file = st.file_uploader("Upload your resume", type=("pdf"))
