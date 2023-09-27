@@ -7,6 +7,7 @@ import time
 
 import openai
 import PyPDF2
+# import fitz
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -23,6 +24,8 @@ def generate_resume_notes(resume_file):
     resume = ''
     for page in pdf_reader.pages:
         resume += page.extract_text() + '\n'
+    # doc = fitz.open(stream=resume_file.read(), filetype="pdf")
+    # resume = '\n'.join([page.get_text(sort=True) for page in doc])
         
     def clean_resume(resume):
         resume = resume.replace(' \n', '<newline>')
@@ -118,7 +121,7 @@ def write_email(profile, context, email_instruction):
     
     receiver = profiles[profile]['name']
     
-    system_prompt = f"{email_instruction}\n Include relevant information from the given context. At the end of the email, include a sentence that this was generated using my own custom networking LLM tool."
+    system_prompt = f"{email_instruction}\n Include relevant information from the given context. At the end of the email, include a sentence that this was generated using a Stanford CS-specific LLM networking tool."
     user_input = f"Sender: [Sender name] \nReceiver: {receiver} \n"
     for context_item in context:
         resume_text = context_item['resume_text']
@@ -142,11 +145,15 @@ def get_email_data(resume_embeddings):
         
     with open('stanford_cs_profiles_150ch_embeddings.json', 'r') as f:
         profile_embeddings = json.load(f)
+    
+    with open('stanford_cs_profiles_full.json', 'r') as f:
+        profile_pages = json.load(f)
         
     profile_embedding_mat = np.array([line['text_embedding'] for line in profile_embeddings.values()])
 
     
     email_data = {} # {PROFILE: [(email 0) {'resume_text': RESUME_TEXT, 'profile_text': PROFILE_TEXT, 'email': EMAIL}, (email 1) ...]}
+    profile_names = {} # {PROFILE: NAME}
 
     for domain, resume_texts in resume_embeddings.items():
         for text_idx, text_details in resume_texts.items():
@@ -168,12 +175,13 @@ def get_email_data(resume_embeddings):
                 email_context = {'resume_text': resume_text, 'profile_text': profile_text}
                 if profile not in email_data.keys():
                     email_data[profile] = [email_context]
+                    profile_names[profile] = profile_pages[profile]['name']
                 else:
                     profile_emails = email_data[profile]
                     email_data[profile] = profile_emails + [email_context]
                 cs[max_idx] = -99
                 
-    return email_data
+    return email_data, profile_names
 
 
 def generate_emails(profile, context, email_instruction):

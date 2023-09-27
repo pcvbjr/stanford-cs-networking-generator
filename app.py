@@ -25,30 +25,31 @@ if uploaded_file and email_instruction and openai_api_key:
     openai.api_key = openai_api_key
     
     # Get key points from resume
-    st.write('Identifying key points from your resume...')
+    st.write('### Identifying key points from your resume...')
     domains = generate_resume_notes(uploaded_file)
     for domain, resume_texts in domains.items():
         domain_output = f'##### {domain} #####\n'
         for text in resume_texts:
-            domain_output += f'\n---> {text}\n'
+            domain_output += f'- {text}\n'
         st.write(domain_output)
         
     # Get resume embeddings
     resume_embeddings = get_resume_embeddings(domains)
     
     # Compare resume and Stanford profiles
-    email_data = get_email_data(resume_embeddings)
+    email_data, profile_names = get_email_data(resume_embeddings)
     
     # Show matches
-    st.write(f'Identified *{len(email_data.keys())}* possible networking opportunities:')
-    for profile in email_data.keys():
-        st.write(f'- *{profile}*')
+    st.write(f'### Identified *{len(email_data.keys())}* possible networking opportunities:')
+    for (name, profile) in zip(profile_names.values(), email_data.keys()):
+        st.write(f'- *[{name}](https://profiles.stanford.edu/{profile})*')
     
     # Generate emails
-    st.write('Generating emails...')
+    st.write('### Generating emails...')
     for profile in email_data.keys():
         email, summary, receiver = generate_emails(profile, email_data[profile], email_instruction)
     
-        st.write(f'#### To: {receiver}')
+        st.write(f'##### To: {receiver}')
+        st.write(f'[Profile Link](https://profiles.stanford.edu/{profile})')
         st.write(f'*Summary: {summary}*')
         st.write(email)
