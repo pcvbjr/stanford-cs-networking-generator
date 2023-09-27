@@ -7,7 +7,6 @@ import time
 
 import openai
 import PyPDF2
-# import fitz
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -24,9 +23,7 @@ def generate_resume_notes(resume_file):
     resume = ''
     for page in pdf_reader.pages:
         resume += page.extract_text() + '\n'
-    # doc = fitz.open(stream=resume_file.read(), filetype="pdf")
-    # resume = '\n'.join([page.get_text(sort=True) for page in doc])
-        
+
     def clean_resume(resume):
         resume = resume.replace(' \n', '<newline>')
         resume = resume.replace(' ', '')
