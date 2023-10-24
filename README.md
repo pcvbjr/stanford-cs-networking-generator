@@ -1,9 +1,9 @@
 # Stanford CS Networking Generator
- An LLM tool for networking in the Stanford CS community.
+ An LLM tool for networking in the Stanford CS community. The tool references a vector database of Stanford Computer Science personal profiles to match your resume/CV with individuals who share your interests and experience. You can instruct the tool to generate text, such as an introductory email or questions to ask them over coffee, for each top matching individual.
  
 ## Access
-### Online
-Access the tool at https://stanford-cs-networking-generator.streamlit.app/
+//### Online
+//Access the tool at https://stanford-cs-networking-generator.streamlit.app/
 
 ### Install and Run Locally
 - Create a directory and a new virtual environment for the project
